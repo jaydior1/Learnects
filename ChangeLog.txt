@@ -4,5 +4,6 @@ Version #0.0.0.1Alpha:
 version #0.0.0.1.2Alpha
 	~ Completely rewrote the program to use requests as it seemed easier to learn then urllib2, and im just starting.
 	~ Rewrote it to take more then just a year entry. (now takes "year" "make" and "model" and returns "saftey ratings")
+	~ Rewrote script again to try and shorten it/ clean it up a bit.(still not to sure bout the changes thats why its in beta)
 	~ more to come...
 

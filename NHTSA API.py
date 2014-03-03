@@ -14,27 +14,22 @@ print "--------------------------------------------------------"
 
 paramY = "/modelyear/" + year
 
-def choose_year(paramY):
-    nhstaY = requests.get(nhsta.url + paramY)
-    for results in nhstaY.json["Results"]:
-        print results["Make"]
-    return nhstaY
+def choose_car(nhsta, param):
+    new_nhsta = requests.get(nhsta.url + param)
+    for results in new_nhsta.json["Results"]:
+        for car in results:
+            print str(car) + ": " + str(results[car])
+        print
+    return new_nhsta
 
-nhstaY = choose_year(paramY)
+nhstaY = choose_car(nhsta, paramY)
 
 print "--------------------------------------------------------"
 make = raw_input("Now choose the make of car you are looking for from above: ")
 print "--------------------------------------------------------"
 
 paramMa = "/make/" + make
-
-def choose_make(paramMa):
-    nhstaMa = requests.get(nhstaY.url + paramMa)
-    for results in nhstaMa.json["Results"]:
-        print results["Model"]
-    return nhstaMa
-
-nhstaMa = choose_make(paramMa)
+nhstaMa = choose_car(nhstaY, paramMa)
 
 print "--------------------------------------------------------"
 model = raw_input("Now choose a model from the list above: ")
@@ -42,35 +37,13 @@ print "--------------------------------------------------------"
 
 paramMo = "/model/" + model
 
-def choose_model(paramMo):
-    nhstaMo = requests.get(nhstaMa.url + paramMo)
+def get_vehicleid(nhsta, param):
+    nhstaMo = requests.get(nhsta.url + param)
     for results in nhstaMo.json["Results"]:
         print "Vehicle Description: " + results["VehicleDescription"]
         print "Vehicle Id: " + str(results["VehicleId"])
     print"--------------------------------------------------------"
     return results["VehicleId"]
 
-nhstaMo = choose_model(paramMo)
-
-def get_ratings(nhstaMo):
-    vehicleid = "/VehicleId/" + str(nhstaMo)
-    ratings = requests.get(nhsta.url + vehicleid)
-    for results in ratings.json["Results"]:
-        for rating in results:
-            print rating + ": " + str(results[rating]) 
-
-get_ratings(nhstaMo)
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
+nhstaMo = "/VehicleId/" + str(get_vehicleid(nhstaMa, paramMo))
+choose_car(nhsta, nhstaMo)
